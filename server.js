@@ -42,8 +42,17 @@ app.post('/createUser', function (req, res) {
 })
 
 app.get('/listUsers', function (req, res) {
-  res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify(users));
+  let userId = req.query.id;
+  let userName = req.query.username;
+  console.log("userId:", userId, " userName:", userName)
+  if(userId){
+    let filteredUsers = users.filter(x => x.id == userId && x.name == userName);
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(filteredUsers));
+  } else {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(users));
+  }
 })
 
 http.createServer(app).listen(app.get('port'), function () {
